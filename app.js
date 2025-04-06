@@ -1,3 +1,4 @@
+  
 const express = require('express');
 const multer = require('multer');
 const { BlobServiceClient } = require('@azure/storage-blob');
@@ -8,14 +9,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Azure Blob Storage connection string and container name
-const connectionString = 'your_connection_string_here';
-const containerName = 'your_container_name_here';
+const connectionString =  'DefaultEndpointsProtocol=https;AccountName=funccloudapp01hmd;AccountKey=5zBPgcUh5L2xb0KN5mwy7SAYdRVkpNJCr7az11fNbP/6krncSWQNsQ2gkTeBQrUKJac/YeOcIvgR+AStg/G29Q==;EndpointSuffix=core.windows.net';
+const containerName = 'uploads';
 
 // Create a BlobServiceClient
 const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
 
 // Configure multer for file uploads
 const upload = multer({ dest: 'uploads/' });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/upload', upload.single('file'), async (req, res) => {
   try {
